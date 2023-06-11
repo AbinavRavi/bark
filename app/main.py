@@ -1,14 +1,13 @@
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from bark import SAMPLE_RATE, generate_audio, preload_models
-from scipy.io.wavfile import write as write_wav
+from typing import List
+from numpy import ndarray as np
+import json
 
 class Prompt(BaseModel):
     text: str
-
-# class Output(BaseModel):
-#     prompt: str
-#     audio: bytearray
 
 app = FastAPI(title="BARK ENDPOINT")
 
@@ -17,9 +16,10 @@ def convert2audio(text: Prompt):
     preload_models()
     prompt = text.text
     output = generate_audio(prompt)
-    print(type(output))
-    # write_wav("test.wav", SAMPLE_RATE, output)
-    return {"status":"Done"}
+    return {
+        "prompt": prompt,
+        "audio": json.dumps(output.tolist())
+    }
 
 @app.get("/health_check")
 def health_check():

@@ -8,17 +8,29 @@ The models are downloaded by the bark service the first time the service is run 
 container is restarted for any reason then this will be downloaded again.
 
 ## Inference output
-
+```
 {
     "prompt": "Input prompt",
     "audio": "Array of audio file as a json string"
 }
-
+```
 ## How to run
 
-Build the container - make build
-Run the image - make run
-clean the image after done - make clean
+Build the container - ```make build```
+Run the image - ```make run```
+clean the image after done - ```make clean```
+
+#### Request
+
+Example request : 
+```
+{
+    "prompt": "Hi there I am testing this using a unit test"
+}
+
+```
+
+#### Response
 
 
 You can use postman to send the requests to 0.0.0.0:8000 which will be the port on which server is running
